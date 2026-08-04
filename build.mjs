@@ -129,6 +129,46 @@ ${laws.map((l) => card(l, '')).join('\n')}
   return page({ title: 'Laws & Adages', base: '', body, scripts: ['laws-data.js', 'app.js'] });
 }
 
+// Rendered in this order regardless of the order they appear in the file.
+const SECTIONS = ['origin', 'mechanism', 'where it breaks', 'example'];
+
+function entryPage(law) {
+  const parts = '<i></i>'.repeat(MARK_PARTS[law.slug] ?? 3);
+  const sections = SECTIONS
+    .filter((key) => law.sections[key])
+    .map((key) => {
+      const { heading, paragraphs } = law.sections[key];
+      return `<section class="entry__section">
+  <h2 class="entry__heading">${esc(heading)}</h2>
+  ${paragraphs.map((p) => `<p>${esc(p)}</p>`).join('\n  ')}
+</section>`;
+    }).join('\n');
+
+  const body = `<div class="entry__top">
+  <a class="backlink" href="../index.html"><span aria-hidden="true">←</span> All laws</a>
+</div>
+<article class="entry">
+  <header class="entry__head">
+    <span class="mark mark--${esc(law.slug)} entry__mark" aria-hidden="true">${parts}</span>
+    <h1 class="entry__name">${esc(law.name)}</h1>
+    <p class="entry__statement">${esc(law.quote)}</p>
+    <p class="entry__caption">Named for ${esc(law.namesake)}, ${esc(law.dates)}</p>
+  </header>
+${sections}
+</article>
+<nav class="pager" aria-label="Other laws">
+  <a class="pager__link" href="${esc(law.prev.slug)}.html">
+    <span class="pager__dir"><span aria-hidden="true">←</span> Previous</span>
+    <span class="pager__name">${esc(law.prev.name)}</span>
+  </a>
+  <a class="pager__link pager__link--next" href="${esc(law.next.slug)}.html">
+    <span class="pager__dir">Next <span aria-hidden="true">→</span></span>
+    <span class="pager__name">${esc(law.next.name)}</span>
+  </a>
+</nav>`;
+  return page({ title: `${law.name} — Laws & Adages`, base: '../', body });
+}
+
 // --- build -------------------------------------------------------------
 
 const laws = await loadLaws();
@@ -147,6 +187,11 @@ await writeFile(path.join(DIST, 'assets/laws-data.js'),
   `window.LAWS = ${JSON.stringify(data, null, 1)};\n`);
 
 await writeFile(path.join(DIST, 'index.html'), collectionPage(laws));
+
+await mkdir(path.join(DIST, 'laws'), { recursive: true });
+for (const law of laws) {
+  await writeFile(path.join(DIST, 'laws', `${law.slug}.html`), entryPage(law));
+}
 
 console.log(`built ${laws.length} laws -> dist/`);
 if (!existsSync(path.join(SRC, 'styles/marks.css'))) console.warn('note: marks.css missing');
