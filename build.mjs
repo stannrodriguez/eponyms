@@ -1,0 +1,152 @@
+// Laws & Adages — zero-dependency static site generator.
+// Reads content/laws/*.md, writes a self-contained site to dist/ that works
+// from file:// or any GitHub Pages subpath (all URLs are relative).
+
+import { readdir, readFile, mkdir, writeFile, rm, cp } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+
+const ROOT = path.dirname(new URL(import.meta.url).pathname);
+const CONTENT = path.join(ROOT, 'content/laws');
+const SRC = path.join(ROOT, 'src');
+const DIST = path.join(ROOT, 'dist');
+
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// --- content -----------------------------------------------------------
+
+/** Frontmatter scalars + `## Section` prose blocks. */
+function parseLaw(source, file) {
+  const m = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/.exec(source);
+  if (!m) throw new Error(`${file}: missing frontmatter`);
+  const data = {};
+  for (const line of m[1].split('\n')) {
+    const kv = /^([a-z]+):\s*(.*)$/.exec(line.trim());
+    if (kv) data[kv[1]] = kv[2];
+  }
+  for (const key of ['order', 'name', 'slug', 'quote', 'namesake', 'dates']) {
+    if (!data[key]) throw new Error(`${file}: missing "${key}"`);
+  }
+  data.order = Number(data.order);
+
+  data.sections = {};
+  const body = m[2].trim();
+  if (body) {
+    for (const block of body.split(/^##\s+/m).slice(1)) {
+      const nl = block.indexOf('\n');
+      const heading = block.slice(0, nl < 0 ? block.length : nl).trim();
+      data.sections[heading.toLowerCase()] = {
+        heading,
+        paragraphs: block.slice(nl + 1).trim().split(/\n{2,}/)
+          .map((p) => p.trim().replace(/\s*\n\s*/g, ' ')).filter(Boolean),
+      };
+    }
+  }
+  return data;
+}
+
+async function loadLaws() {
+  const files = (await readdir(CONTENT)).filter((f) => f.endsWith('.md'));
+  const laws = await Promise.all(files.map(async (f) =>
+    parseLaw(await readFile(path.join(CONTENT, f), 'utf8'), f)));
+  laws.sort((a, b) => a.order - b.order);
+  laws.forEach((law, i) => {
+    law.prev = laws[(i - 1 + laws.length) % laws.length];
+    law.next = laws[(i + 1) % laws.length];
+  });
+  return laws;
+}
+
+// --- templates ---------------------------------------------------------
+
+const FONTS = 'https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1'
+  + '&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400'
+  + '&family=Schibsted+Grotesk:wght@400;700&display=swap';
+
+/** @param {{title:string, base:string, body:string, scripts?:string[]}} o */
+function page({ title, base, body, scripts = [] }) {
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(title)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="${FONTS}">
+<link rel="stylesheet" href="${base}assets/base.css">
+<link rel="stylesheet" href="${base}assets/marks.css">
+</head>
+<body>
+${body}
+${scripts.map((s) => `<script src="${base}assets/${s}"></script>`).join('\n')}
+</body>
+</html>
+`;
+}
+
+// How many `<i>` primitives each mark is drawn from; PR: see src/styles/marks.css.
+const MARK_PARTS = {};
+
+function card(law, base) {
+  const parts = '<i></i>'.repeat(MARK_PARTS[law.slug] ?? 3);
+  return `<div class="card" data-slug="${esc(law.slug)}">
+  <div class="card__inner">
+    <button class="card__face card__front" type="button" aria-label="${esc(law.name)} — show quote">
+      <span class="card__name">${esc(law.name)}</span>
+      <span class="card__rule"></span>
+      <span class="mark mark--${esc(law.slug)}" aria-hidden="true">${parts}</span>
+    </button>
+    <div class="card__face card__back">
+      <button class="card__quote-btn" type="button" aria-label="Show name">
+        <span class="card__quote">${esc(law.quote)}</span>
+      </button>
+      <a class="card__read" href="${base}laws/${esc(law.slug)}.html">read <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</div>`;
+}
+
+function collectionPage(laws) {
+  const body = `<header class="topbar">
+  <h1 class="wordmark">Laws &amp; Adages</h1>
+  <div class="toggle" role="group" aria-label="Card face">
+    <button class="toggle__seg is-active" type="button" data-face="names" aria-pressed="true">Names</button>
+    <button class="toggle__seg" type="button" data-face="quotes" aria-pressed="false">Quotes</button>
+  </div>
+</header>
+<main>
+  <a class="banner" href="today/index.html" data-today-banner>
+    <span class="banner__tag">Today</span>
+    <span class="banner__name" data-today-name></span>
+    <span class="banner__quote" data-today-quote></span>
+  </a>
+  <div class="grid">
+${laws.map((l) => card(l, '')).join('\n')}
+  </div>
+</main>`;
+  return page({ title: 'Laws & Adages', base: '', body, scripts: ['laws-data.js', 'app.js'] });
+}
+
+// --- build -------------------------------------------------------------
+
+const laws = await loadLaws();
+await rm(DIST, { recursive: true, force: true });
+await mkdir(path.join(DIST, 'assets'), { recursive: true });
+
+for (const file of await readdir(path.join(SRC, 'styles'))) {
+  await cp(path.join(SRC, 'styles', file), path.join(DIST, 'assets', file));
+}
+for (const file of await readdir(path.join(SRC, 'scripts'))) {
+  await cp(path.join(SRC, 'scripts', file), path.join(DIST, 'assets', file));
+}
+
+const data = laws.map(({ name, slug, quote }) => ({ name, slug, quote }));
+await writeFile(path.join(DIST, 'assets/laws-data.js'),
+  `window.LAWS = ${JSON.stringify(data, null, 1)};\n`);
+
+await writeFile(path.join(DIST, 'index.html'), collectionPage(laws));
+
+console.log(`built ${laws.length} laws -> dist/`);
+if (!existsSync(path.join(SRC, 'styles/marks.css'))) console.warn('note: marks.css missing');
