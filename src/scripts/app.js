@@ -30,6 +30,20 @@
     }
   }
 
+  // Revisit mode: the same card and the full entry, for the law of the day.
+  var slot = document.querySelector('[data-today-card]');
+  if (slot) {
+    var todays = lawOfTheDay();
+    if (todays) {
+      slot.innerHTML = todays.card;
+      document.querySelector('[data-today-entry]').innerHTML = todays.entry;
+      document.body.dataset.law = todays.slug;
+      document.title = todays.name + ' — Today — Laws & Adages';
+    } else {
+      document.querySelector('[data-today]').hidden = true;
+    }
+  }
+
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   if (!cards.length) return;
 
