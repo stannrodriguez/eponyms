@@ -225,7 +225,7 @@ body {
 
 .entry__head { position: relative; }
 
-.entry__mark { position: static; float: right; margin: 4px 0 0 24px; }
+.entry__mark { position: relative; float: right; margin: 4px 0 0 24px; }
 
 .entry__name {
   margin: 0;

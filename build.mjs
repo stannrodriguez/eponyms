@@ -86,8 +86,30 @@ ${scripts.map((s) => `<script src="${base}assets/${s}"></script>`).join('\n')}
 `;
 }
 
-// How many `<i>` primitives each mark is drawn from; PR: see src/styles/marks.css.
-const MARK_PARTS = {};
+// How many `<i>` primitives each mark is drawn from. See src/styles/marks.css,
+// which positions them; anything extra comes from pseudo-elements.
+const MARK_PARTS = {
+  'murphys-law': 3,             // square, ground line, fallen dot
+  'parkinsons-law': 3,          // dial, hour hand, minute hand
+  'sturgeons-law': 10,          // ten dots
+  'sayres-law': 3,              // two squares, one diamond
+  'chestertons-fence': 5,       // five pickets; the rail is ::after
+  'hanlons-razor': 2,           // circle, slash
+  'goodharts-law': 4,           // three rings, one orbit arm
+  'campbells-law': 3,           // three bars
+  'hofstadters-law': 3,         // two nested squares, one echo
+  'the-lindy-effect': 2,        // dot, line
+  'cunninghams-law': 2,         // question bubble, reply bubble
+  'brandolinis-law': 10,        // nine squares, one dot
+  'the-region-beta-paradox': 2, // short bar, tall bar
+  'conways-law': 5,             // root, two edges, two leaves
+  'postels-law': 3,             // bracket, slot, travelling dot
+  'the-streisand-effect': 7,    // centre plus six
+  'the-peter-principle': 3,     // three steps
+  'betteridges-law': 2,         // question mark, period
+  'occams-razor': 3,            // three dots
+  'amaras-law': 2,              // two bars
+};
 
 function card(law, base) {
   const parts = '<i></i>'.repeat(MARK_PARTS[law.slug] ?? 3);
