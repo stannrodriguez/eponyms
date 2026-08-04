@@ -1,0 +1,199 @@
+:root {
+  --plaster: #eae7de;
+  --paper: #f7f4ec;
+  --ink: #1c1b18;
+  --body-ink: #211f1a;
+  --muted: #8f8b80;
+  --red: #c73a28;
+  --shadow: 0 3px 12px rgba(35, 30, 18, .13);
+  --ui: "Schibsted Grotesk", system-ui, sans-serif;
+  --read: "Newsreader", Georgia, serif;
+  --caption: "EB Garamond", Georgia, serif;
+  --shell: 1180px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 26px 24px 72px;
+  background: var(--plaster);
+  color: var(--body-ink);
+  font-family: var(--ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+
+/* --- header ------------------------------------------------------------ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: var(--shell);
+  margin: 0 auto 22px;
+}
+
+.wordmark {
+  margin: 0;
+  font: 700 25px/1 var(--ui);
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+
+.toggle {
+  display: flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .5);
+}
+
+.toggle__seg {
+  border: 0;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: 700 14px/1 var(--ui);
+  cursor: pointer;
+  transition: background .25s ease, color .25s ease;
+}
+
+.toggle__seg.is-active { background: var(--ink); color: var(--paper); }
+
+/* --- today banner ------------------------------------------------------ */
+
+.banner {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  max-width: var(--shell);
+  min-height: 62px;
+  margin: 0 auto 26px;
+  padding: 17px 24px;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .45);
+  text-decoration: none;
+  color: inherit;
+}
+
+.banner__tag {
+  font: 700 11px/1 var(--ui);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.banner__name { font: 700 16px/1.2 var(--ui); color: var(--ink); }
+.banner__quote { font: italic 400 16px/1.3 var(--read); color: var(--body-ink); }
+
+/* --- card grid --------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  gap: 18px;
+  max-width: var(--shell);
+  margin: 0 auto;
+}
+
+.card { aspect-ratio: 4 / 5; perspective: 1100px; }
+
+.card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .7s cubic-bezier(.34, 1.25, .45, 1);
+}
+
+.card.is-flipped .card__inner { transform: rotateY(180deg); }
+
+.card__face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  margin: 0;
+  padding: 22px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  text-align: left;
+  font-family: inherit;
+}
+
+/* Buttons centre their content by default; the card is a top-left layout. */
+.card__front {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+.card__back { transform: rotateY(180deg); }
+
+.card__name {
+  display: block;
+  font: 700 22px/1.08 var(--ui);
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.card__rule {
+  display: block;
+  width: 26px;
+  height: 2.5px;
+  margin-top: 12px;
+  background: var(--red);
+}
+
+.card__quote-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 22px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.card__quote { font: 400 16px/1.35 var(--read); color: var(--body-ink); }
+
+.card__read {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  font: 700 12px/1 var(--ui);
+  letter-spacing: .08em;
+  text-transform: lowercase;
+  color: var(--red);
+  text-decoration: none;
+}
+
+.card__read:hover { text-decoration: underline; }
+
+.mark {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  width: 52px;
+  height: 52px;
+  display: block;
+}
+
+@media (max-width: 520px) {
+  body { padding: 20px 16px 56px; }
+  .topbar { flex-direction: column; align-items: flex-start; }
+}

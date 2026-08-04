@@ -1,0 +1,4 @@
+/* Geometric marks — one per law, built from CSS primitives only.
+   Filled in a follow-up change; the 52px box is reserved by base.css so
+   adding them causes no layout shift. */
+.mark > i { display: block; }
