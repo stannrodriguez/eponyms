@@ -64,8 +64,8 @@ const FONTS = 'https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1'
   + '&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400'
   + '&family=Schibsted+Grotesk:wght@400;700&display=swap';
 
-/** @param {{title:string, base:string, body:string, scripts?:string[]}} o */
-function page({ title, base, body, scripts = [] }) {
+/** @param {{title:string, base:string, body:string, scripts?:string[], bodyAttrs?:string}} o */
+function page({ title, base, body, scripts = [], bodyAttrs = '' }) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -78,7 +78,7 @@ function page({ title, base, body, scripts = [] }) {
 <link rel="stylesheet" href="${base}assets/base.css">
 <link rel="stylesheet" href="${base}assets/marks.css">
 </head>
-<body>
+<body${bodyAttrs}>
 ${body}
 ${scripts.map((s) => `<script src="${base}assets/${s}"></script>`).join('\n')}
 </body>
@@ -148,13 +148,13 @@ function collectionPage(laws) {
 ${laws.map((l) => card(l, '')).join('\n')}
   </div>
 </main>`;
-  return page({ title: 'Laws & Adages', base: '', body, scripts: ['laws-data.js', 'app.js'] });
+  return page({ title: 'Laws & Adages', base: '', body, scripts: ['laws-data.js', 'app.js', 'read-state.js'] });
 }
 
 // Rendered in this order regardless of the order they appear in the file.
 const SECTIONS = ['origin', 'mechanism', 'where it breaks', 'example'];
 
-function entryPage(law) {
+function entryArticle(law) {
   const parts = '<i></i>'.repeat(MARK_PARTS[law.slug] ?? 3);
   const sections = SECTIONS
     .filter((key) => law.sections[key])
@@ -166,10 +166,7 @@ function entryPage(law) {
 </section>`;
     }).join('\n');
 
-  const body = `<div class="entry__top">
-  <a class="backlink" href="../index.html"><span aria-hidden="true">←</span> All laws</a>
-</div>
-<article class="entry">
+  return `<article class="entry">
   <header class="entry__head">
     <span class="mark mark--${esc(law.slug)} entry__mark" aria-hidden="true">${parts}</span>
     <h1 class="entry__name">${esc(law.name)}</h1>
@@ -177,7 +174,14 @@ function entryPage(law) {
     <p class="entry__caption">Named for ${esc(law.namesake)}, ${esc(law.dates)}</p>
   </header>
 ${sections}
-</article>
+</article>`;
+}
+
+function entryPage(law) {
+  const body = `<div class="entry__top">
+  <a class="backlink" href="../index.html"><span aria-hidden="true">←</span> All laws</a>
+</div>
+${entryArticle(law)}
 <nav class="pager" aria-label="Other laws">
   <a class="pager__link" href="${esc(law.prev.slug)}.html">
     <span class="pager__dir"><span aria-hidden="true">←</span> Previous</span>
@@ -188,7 +192,32 @@ ${sections}
     <span class="pager__name">${esc(law.next.name)}</span>
   </a>
 </nav>`;
-  return page({ title: `${law.name} — Laws & Adages`, base: '../', body });
+  return page({
+    title: `${law.name} — Laws & Adages`,
+    base: '../',
+    body,
+    bodyAttrs: ` data-law="${esc(law.slug)}"`,
+    scripts: ['read-state.js'],
+  });
+}
+
+function todayPage() {
+  const body = `<div class="entry__top">
+  <a class="backlink" href="../index.html"><span aria-hidden="true">←</span> All laws</a>
+</div>
+<main class="today" data-today>
+  <p class="today__tag">Today</p>
+  <div class="today__card" data-today-card></div>
+  <div data-today-entry></div>
+  <noscript><p class="today__fallback">Revisit mode picks the law from the date, which needs
+    JavaScript. <a href="../index.html">Browse the collection instead.</a></p></noscript>
+</main>`;
+  return page({
+    title: 'Today — Laws & Adages',
+    base: '../',
+    body,
+    scripts: ['laws-data.js', 'app.js', 'read-state.js'],
+  });
 }
 
 // --- build -------------------------------------------------------------
@@ -204,7 +233,13 @@ for (const file of await readdir(path.join(SRC, 'scripts'))) {
   await cp(path.join(SRC, 'scripts', file), path.join(DIST, 'assets', file));
 }
 
-const data = laws.map(({ name, slug, quote }) => ({ name, slug, quote }));
+const data = laws.map((law) => ({
+  name: law.name,
+  slug: law.slug,
+  quote: law.quote,
+  card: card(law, '../'),
+  entry: entryArticle(law),
+}));
 await writeFile(path.join(DIST, 'assets/laws-data.js'),
   `window.LAWS = ${JSON.stringify(data, null, 1)};\n`);
 
@@ -214,6 +249,9 @@ await mkdir(path.join(DIST, 'laws'), { recursive: true });
 for (const law of laws) {
   await writeFile(path.join(DIST, 'laws', `${law.slug}.html`), entryPage(law));
 }
+
+await mkdir(path.join(DIST, 'today'), { recursive: true });
+await writeFile(path.join(DIST, 'today/index.html'), todayPage());
 
 console.log(`built ${laws.length} laws -> dist/`);
 if (!existsSync(path.join(SRC, 'styles/marks.css'))) console.warn('note: marks.css missing');

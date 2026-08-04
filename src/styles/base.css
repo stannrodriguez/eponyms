@@ -308,3 +308,31 @@ body {
   .pager { flex-direction: column; }
   .pager__link--next { text-align: left; }
 }
+
+/* --- revisit mode ------------------------------------------------------ */
+
+.today { max-width: 680px; margin: 0 auto; }
+
+.today__tag {
+  margin: 0 0 12px;
+  font: 700 11px/1 var(--ui);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.today__card { width: 205px; margin-bottom: 26px; }
+
+.today__fallback { font: 400 18px/1.5 var(--read); }
+
+/* A card already read carries one muted dot. No counts, no progress bar. */
+.card.is-read .card__front::after {
+  content: '';
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+}
