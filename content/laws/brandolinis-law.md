@@ -14,3 +14,11 @@ Alberto Brandolini, an Italian programmer, posted it in January 2013 after watch
 ## Mechanism
 
 The asymmetry is in production cost. A false claim has to satisfy nothing — not evidence, not internal consistency, not its author's earlier claims — so it can be produced at conversational speed. A refutation has to identify the specific claim, gather evidence, be checkable, and stay consistent with everything else the refuter has said. Worse, each refutation covers exactly one claim, while the claim generator is free to move on, so the defender's cost scales with the attacker's output.
+
+## Where it breaks
+
+The ratio is rhetorical, and the asymmetry is not uniform. A claim that turns on one checkable fact — a date, a number, the provenance of an image — is cheap to refute. A source with a track record can be discounted without refuting anything at all. The law is often used as a reason to disengage from any disagreement, which is a different claim: it describes the cost of rebuttal, not the value of it.
+
+## Example
+
+Andrew Wakefield's 1998 Lancet paper reported on twelve children and had no control group. Retracting it took twelve years, a General Medical Council hearing that ran for 217 days, and a series of population studies to close off the question — a Danish cohort of 537,303 children in 2002, another of 657,461 in 2019. One paper on one side; a decade of epidemiology on the other.
