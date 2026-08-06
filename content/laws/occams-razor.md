@@ -2,14 +2,14 @@
 order: 19
 name: Occam's Razor
 slug: occams-razor
-quote: Do not multiply entities beyond necessity.
+quote: When several explanations fit the facts, prefer the one that makes the fewest assumptions.
 namesake: William of Ockham
 dates: c. 1287–1347
 ---
 
 ## Origin
 
-William of Ockham was a fourteenth-century English Franciscan and logician who used the principle constantly in the form plurality is not to be posited without necessity. He never wrote the sentence attached to his name; entities must not be multiplied beyond necessity comes from John Punch, an Irish scholastic, in 1639. The idea predates both of them — Aristotle and Ptolemy state versions of it.
+The card above is a modern paraphrase of the principle. William of Ockham was a fourteenth-century English Franciscan and logician who used it constantly in the form plurality is not to be posited without necessity. The familiar wording entities must not be multiplied beyond necessity comes from John Punch, an Irish scholastic, in 1639. The idea predates both of them — Aristotle and Ptolemy state versions of it.
 
 ## Mechanism
 

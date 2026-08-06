@@ -9,7 +9,7 @@ dates: born 1949
 
 ## Origin
 
-Ward Cunningham built the first wiki in 1995, which is why the line is attached to him. He did not coin it — Steven McGeady named it after him, recalling advice Cunningham gave him in the early 1980s, and Cunningham has since said the attribution garbles what he actually said, which was about Usenet rather than the internet at large.
+Steven McGeady named the law after Ward Cunningham, recalling advice Cunningham gave him in the early 1980s. Cunningham did not coin the familiar wording and has since said the attribution garbles what he actually said, which concerned Usenet rather than the internet at large. His later creation of the first wiki helped make the idea feel characteristic of him, but it was not the source of the name.
 
 ## Mechanism
 

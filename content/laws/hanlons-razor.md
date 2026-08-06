@@ -13,7 +13,7 @@ The line was submitted by Robert J. Hanlon of Scranton, Pennsylvania, for Arthur
 
 ## Mechanism
 
-It is a claim about base rates, not about human nature. Fatigue, missing context, bad handoffs and ordinary error are constant and cheap; coordinated malice is rare and expensive, because it requires the other party to have modelled you, decided you were worth the effort, and kept it up. Error requires none of that, so on any given day error is the far larger pool of explanations.
+It is a claim about base rates, not about human nature. In many everyday situations, fatigue, missing context, bad handoffs and ordinary error occur more often than deliberate harm. Starting with the more common explanation prevents suspicion from outrunning the evidence; it does not rule out malice when a pattern gives you reason to update.
 
 ## Where it breaks
 

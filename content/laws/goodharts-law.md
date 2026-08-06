@@ -21,4 +21,4 @@ It is not an argument against measurement. The collapse comes from the pressure,
 
 ## Example
 
-England set an eight-minute target for ambulance response to the most urgent calls. The distribution of recorded response times developed a spike immediately before 7:59 and a cliff after 8:00 — a shape no physical process produces. Ambulances were dispatched to hit the clock rather than to match the case, rapid-response vehicles were sent to stop the timer before a transporting vehicle arrived, and the recorded times improved while the thing the target was standing in for did not.
+England set an eight-minute target for ambulance response to the most urgent calls. The distribution of recorded response times developed a spike immediately before 7:59 and a cliff after 8:00 — a shape no physical process produces. Ambulances were dispatched to hit the clock rather than to match the case, and rapid-response vehicles were sent to stop the timer before a transporting vehicle arrived. The recorded times improved without demonstrating a corresponding improvement in patient outcomes.

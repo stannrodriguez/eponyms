@@ -2,7 +2,7 @@
 order: 12
 name: Brandolini's Law
 slug: brandolinis-law
-quote: Refuting nonsense takes ten times the effort of producing it.
+quote: Refuting nonsense can require an order of magnitude more effort than producing it.
 namesake: Alberto Brandolini
 dates: stated 2013
 ---
@@ -21,4 +21,4 @@ The ratio is rhetorical, and the asymmetry is not uniform. A claim that turns on
 
 ## Example
 
-Andrew Wakefield's 1998 Lancet paper reported on twelve children and had no control group. Retracting it took twelve years, a General Medical Council hearing that ran for 217 days, and a series of population studies to close off the question — a Danish cohort of 537,303 children in 2002, another of 657,461 in 2019. One paper on one side; a decade of epidemiology on the other.
+Andrew Wakefield's 1998 Lancet paper reported on twelve children and had no control group. Investigations into its conduct and reporting led to a General Medical Council hearing that ran for 217 days and to the paper's retraction twelve years after publication. Separately, large population studies tested and rejected the broader vaccine–autism claim, including Danish cohorts of 537,303 children in 2002 and 657,461 in 2019. One paper took minutes to cite; checking the claim required years of investigation and epidemiology.

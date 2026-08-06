@@ -2,7 +2,7 @@
 order: 4
 name: Sayre's Law
 slug: sayres-law
-quote: In any dispute, the intensity of feeling is inversely proportional to the stakes.
+quote: Academic disputes are often most vicious when the material stakes are small.
 namesake: Wallace Stanley Sayre
 dates: 1905–1972
 ---

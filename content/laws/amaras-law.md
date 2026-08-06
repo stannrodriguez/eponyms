@@ -21,4 +21,4 @@ As stated it cannot be wrong, which is its main weakness. With no timescale atta
 
 ## Example
 
-The human genome was declared sequenced in 2000 with predictions of imminent cures, and by the mid-2000s the verdict was that genomics had not delivered. Meanwhile sequencing a genome fell from roughly 100 million dollars in 2001 to under a thousand by the mid-2010s, and tumour sequencing, prenatal screening and pathogen tracking became routine clinical work. Both readings were made from the same technology, five years apart.
+A working draft of the human genome was announced in 2000 with predictions of imminent cures, and the Human Genome Project was completed in 2003. By the mid-2000s the verdict was that genomics had not delivered. Meanwhile sequencing a genome fell from roughly 100 million dollars in 2001 to under a thousand by the mid-2010s, and tumour sequencing, prenatal screening and pathogen tracking became routine clinical work. The early disappointment and the later transformation came from judging the same technology on different timescales.
