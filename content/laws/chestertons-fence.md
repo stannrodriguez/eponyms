@@ -21,4 +21,4 @@ It governs the order of operations, not the verdict — the fence may well come 
 
 ## Example
 
-China's Four Pests campaign in 1958 targeted sparrows as grain thieves, and citizens were mobilized to kill them by the hundreds of millions. Sparrows also ate locusts. With the predator gone, locust populations expanded without check and stripped the crops the campaign was meant to protect, contributing to the famine that followed. The birds had a function nobody had counted, because the problem they suppressed was not visible while they were there.
+China's Four Pests campaign in 1958 targeted sparrows as grain thieves, and citizens were mobilized to kill them by the hundreds of millions. Sparrows also ate crop-damaging insects, so removing them disrupted the ecological balance and worsened agricultural problems. This was one contributing factor within a famine driven by much larger policy, production and distribution failures. The campaign still illustrates the fence: the birds' protective function was easy to overlook because the problem they suppressed was less visible while they were there.

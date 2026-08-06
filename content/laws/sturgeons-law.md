@@ -13,7 +13,7 @@ Theodore Sturgeon was a science fiction writer tired of critics who judged the g
 
 ## Mechanism
 
-Quality is distributed with a long thin upper tail, so most of the mass of anything sits near the bottom. What survives from the past is the tail: the ninety percent has been discarded, out of print, demolished. Comparisons between an old field and a new one are therefore rigged — the old field is sampled at its tail and the new one in full.
+The number is rhetorical, but the comparison it corrects is real: every field produces abundant mediocre work, while history disproportionately preserves the best. Much of the rest is discarded, goes out of print or is demolished. Comparing an old field with a new one is therefore rigged — the old field is sampled from its survivors and the new one in full.
 
 ## Where it breaks
 

@@ -13,11 +13,11 @@ Edward A. Murphy Jr. was an Air Force engineer working on Project MX-981 at Edwa
 
 ## Mechanism
 
-Any failure mode with a probability above zero occurs eventually if the trial is repeated enough times. A system of many interacting parts has far more ways to be wrong than right, and the count of failure modes grows faster than the part count because parts fail in combination. Memory then does the rest: successful runs are unremarkable and forgotten, failures are recalled, so the rate feels higher than it is.
+With enough repeated exposure, even a rare failure mode becomes increasingly likely. A system of many interacting parts has far more ways to be wrong than right, and the count of failure modes grows faster than the part count because parts fail in combination. Memory then does the rest: successful runs are unremarkable and forgotten, while failures are recalled, so the rate can feel higher than it is.
 
 ## Where it breaks
 
-Read as fatalism it inverts its own origin. Murphy's point was that a part which can be assembled wrongly eventually will be, so the fix is a part that only fits one way — the law is a design instruction, not a prediction that the universe is hostile. It is also not a probability claim: memory keeps failures and discards the uneventful runs, so the felt rate is always higher than the measured one.
+Read as fatalism it inverts its own origin. Murphy's point was that a part which can be assembled wrongly eventually will be, so the fix is a part that only fits one way — the law is a design instruction, not a prediction that the universe is hostile. It is also not a probability claim: memory keeps failures and discards many uneventful runs, so the felt rate can be higher than the measured one.
 
 ## Example
 
