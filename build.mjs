@@ -148,7 +148,7 @@ function collectionPage(laws) {
 ${laws.map((l) => card(l, '')).join('\n')}
   </div>
 </main>`;
-  return page({ title: 'Laws & Adages', base: '', body, scripts: ['laws-data.js', 'app.js', 'read-state.js'] });
+  return page({ title: 'Laws & Adages', base: '', body, scripts: ['laws-data.js', 'app.js', 'read-state.js', 'sheet.js'] });
 }
 
 // Rendered in this order regardless of the order they appear in the file.
