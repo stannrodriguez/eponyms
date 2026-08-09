@@ -325,6 +325,112 @@ body {
 
 .today__fallback { font: 400 18px/1.5 var(--read); }
 
+/* --- side sheet -------------------------------------------------------- */
+
+body.has-sheet { overflow: hidden; }
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(35, 30, 18, .38);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.sheet-backdrop.is-open { opacity: 1; }
+
+.sheet {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 41;
+  width: min(620px, 100%);
+  background: var(--paper);
+  box-shadow: -14px 0 36px rgba(35, 30, 18, .22);
+  overflow-y: auto;
+  transform: translateX(102%);
+  transition: transform .38s cubic-bezier(.32, .72, .3, 1);
+}
+
+.sheet.is-open { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet, .sheet-backdrop { transition: none; }
+}
+
+.sheet__bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px 14px;
+  background: var(--paper);
+}
+
+.sheet__close {
+  border: 0;
+  padding: 4px 8px 4px 0;
+  background: transparent;
+  font: 700 12px/1 var(--ui);
+  letter-spacing: .08em;
+  text-transform: lowercase;
+  color: var(--red);
+  cursor: pointer;
+}
+
+.sheet__close:hover { text-decoration: underline; }
+
+.sheet__page {
+  font: 700 12px/1 var(--ui);
+  letter-spacing: .08em;
+  text-transform: lowercase;
+  color: var(--red);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sheet__page:hover { text-decoration: underline; }
+
+.sheet__body { padding: 8px 28px 0; }
+
+.sheet .entry {
+  max-width: none;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.sheet__pager {
+  display: flex;
+  gap: 14px;
+  padding: 30px 28px 36px;
+}
+
+.sheet__nav {
+  flex: 1;
+  padding: 16px 20px;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .45);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sheet__nav--next { text-align: right; }
+
+@media (max-width: 620px) {
+  .sheet__bar { padding: 14px 20px 12px; }
+  .sheet__body { padding: 6px 20px 0; }
+  .sheet__pager { flex-direction: column; padding: 26px 20px 30px; }
+  .sheet__nav--next { text-align: left; }
+}
+
 /* A card already read carries one muted dot. No counts, no progress bar. */
 .card.is-read .card__front::after {
   content: '';

@@ -18,7 +18,11 @@ disk: `open dist/index.html`.
 ## Pages
 
 - `index.html` — the card wall. The Names/Quotes toggle flips every card and
-  resets individual flips.
+  resets individual flips. "read" opens the entry in a side sheet over the
+  grid (close with ✕, Esc, the backdrop, or the browser back button; arrow
+  keys or the in-sheet pager move between laws). The sheet mirrors its law in
+  the URL hash, so entries stay linkable; without JavaScript the links
+  navigate to the standalone entry pages as before.
 - `laws/<slug>.html` — one entry per law.
 - `today/index.html` — revisit mode. The law is `dayOfYear % 20`, computed in
   the browser from the reader's local date rather than baked in at build time,
