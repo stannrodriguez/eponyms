@@ -38,7 +38,7 @@
       slot.innerHTML = todays.card;
       document.querySelector('[data-today-entry]').innerHTML = todays.entry;
       document.body.dataset.law = todays.slug;
-      document.title = todays.name + ' — Today — Laws & Adages';
+      document.title = todays.name + " | Today's Law | Laws & Adages";
     } else {
       document.querySelector('[data-today]').hidden = true;
     }

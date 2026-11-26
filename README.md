@@ -1,8 +1,8 @@
 # Laws & Adages
 
 A static learning micro-app for twenty eponymous laws and adages. No database,
-no accounts, no runtime framework — content lives as files in this repo and is
-compiled to plain HTML.
+no accounts, and no runtime framework: content lives as files in this repo and
+is compiled to plain HTML.
 
 ## Build
 
@@ -10,31 +10,31 @@ compiled to plain HTML.
 node build.mjs      # writes dist/
 ```
 
-No dependencies and no install step — Node 18 or newer is the only requirement.
+No dependencies and no install step. Node 18 or newer is the only requirement.
 `dist/` is not committed; pushing to `main` builds and deploys it to GitHub
 Pages. The output uses relative URLs throughout, so it also opens directly from
 disk: `open dist/index.html`.
 
 ## Pages
 
-- `index.html` — the card wall. The Names/Quotes toggle flips every card and
+- `index.html`: the card wall. The Names/Quotes toggle flips every card and
   resets individual flips. "read" opens the entry in a side sheet over the
-  grid (close with ✕, Esc, the backdrop, or the browser back button; arrow
+  grid (close with `×`, Esc, the backdrop, or the browser back button; arrow
   keys or the in-sheet pager move between laws). The sheet mirrors its law in
-  the URL hash, so entries stay linkable; without JavaScript the links
-  navigate to the standalone entry pages as before.
-- `laws/<slug>.html` — one entry per law.
-- `today/index.html` — revisit mode. The law is `dayOfYear % 20`, computed in
-  the browser from the reader's local date rather than baked in at build time,
-  which would go stale the day after a deploy.
+  the URL hash, so entries stay linkable; without JavaScript, the links
+  navigate directly to the standalone entry pages.
+- `laws/<slug>.html`: one standalone entry page per law.
+- `today/index.html`: today's law (revisit mode). The law is chosen using
+  `dayOfYear % 20`, computed in the browser from the reader's local date rather
+  than baked in at build time (which would go stale the day after a deploy).
 
-Which laws have been read is kept in `localStorage` and shown as a single muted
-dot on the card. Nothing is sent anywhere, and the site works unchanged when
-storage is unavailable.
+Read state is stored in `localStorage` and shown as a single muted dot on each
+read card. Nothing is sent anywhere, and the site works unchanged when storage
+is unavailable.
 
 ## Content
 
-One file per law in `content/laws/`. Frontmatter carries the scalars:
+One file per law in `content/laws/`. Frontmatter fields:
 
 ```yaml
 ---
@@ -48,8 +48,8 @@ dates: born 1936
 ```
 
 Prose sections follow as `## Origin`, `## Mechanism`, `## Where it breaks` and
-`## Example` headings. Paragraphs are plain text — no markdown syntax beyond
-blank-line paragraph breaks.
+`## Example` headings. Paragraphs are plain text, with no markdown syntax
+beyond blank-line paragraph breaks.
 
 ## Voice
 

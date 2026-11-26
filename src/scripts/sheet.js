@@ -23,11 +23,11 @@
   sheet.setAttribute('aria-modal', 'true');
   sheet.innerHTML = '<div class="sheet__bar">'
     + '<button class="sheet__close" type="button">'
-    + '<span aria-hidden="true">×</span> close</button>'
-    + '<a class="sheet__page">full page <span aria-hidden="true">↗</span></a>'
+    + '<span aria-hidden="true">×</span> Close</button>'
+    + '<a class="sheet__page">Open full page <span aria-hidden="true">↗</span></a>'
     + '</div>'
     + '<div class="sheet__body"></div>'
-    + '<nav class="sheet__pager" aria-label="Other laws">'
+    + '<nav class="sheet__pager" aria-label="Previous and next laws">'
     + '<button class="sheet__nav" type="button" data-step="-1">'
     + '<span class="pager__dir"><span aria-hidden="true">←</span> Previous</span>'
     + '<span class="pager__name"></span></button>'
@@ -64,6 +64,7 @@
     var law = LAWS[i];
     body.innerHTML = law.entry;
     pageLink.href = 'laws/' + law.slug + '.html';
+    pageLink.setAttribute('aria-label', 'Open full page for ' + law.name);
     sheet.setAttribute('aria-label', law.name);
     navBtns[0].querySelector('.pager__name').textContent =
       LAWS[(i - 1 + LAWS.length) % LAWS.length].name;
