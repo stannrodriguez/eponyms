@@ -64,14 +64,23 @@ const FONTS = 'https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1'
   + '&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400'
   + '&family=Schibsted+Grotesk:wght@400;700&display=swap';
 
-/** @param {{title:string, base:string, body:string, scripts?:string[], bodyAttrs?:string}} o */
-function page({ title, base, body, scripts = [], bodyAttrs = '' }) {
+/** @param {{title:string, description?:string, base:string, body:string, scripts?:string[], bodyAttrs?:string}} o */
+function page({ title, description = '', base, body, scripts = [], bodyAttrs = '' }) {
+  const meta = description ? `
+<meta name="description" content="${esc(description)}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Laws &amp; Adages">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(description)}">` : '';
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)}</title>
+<title>${esc(title)}</title>${meta}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${FONTS}">
@@ -115,16 +124,16 @@ function card(law, base) {
   const parts = '<i></i>'.repeat(MARK_PARTS[law.slug] ?? 3);
   return `<div class="card" data-slug="${esc(law.slug)}">
   <div class="card__inner">
-    <button class="card__face card__front" type="button" aria-label="${esc(law.name)} — show quote">
+    <button class="card__face card__front" type="button" aria-label="${esc(law.name)}: show quote">
       <span class="card__name">${esc(law.name)}</span>
       <span class="card__rule"></span>
       <span class="mark mark--${esc(law.slug)}" aria-hidden="true">${parts}</span>
     </button>
     <div class="card__face card__back">
-      <button class="card__quote-btn" type="button" aria-label="Show name">
+      <button class="card__quote-btn" type="button" aria-label="${esc(law.quote)} Show name.">
         <span class="card__quote">${esc(law.quote)}</span>
       </button>
-      <a class="card__read" href="${base}laws/${esc(law.slug)}.html">read <span aria-hidden="true">→</span></a>
+      <a class="card__read" href="${base}laws/${esc(law.slug)}.html" aria-label="Read ${esc(law.name)}">Read <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </div>`;
@@ -133,22 +142,28 @@ function card(law, base) {
 function collectionPage(laws) {
   const body = `<header class="topbar">
   <h1 class="wordmark">Laws &amp; Adages</h1>
-  <div class="toggle" role="group" aria-label="Card face">
+  <div class="toggle" role="group" aria-label="Show cards by">
     <button class="toggle__seg is-active" type="button" data-face="names" aria-pressed="true">Names</button>
     <button class="toggle__seg" type="button" data-face="quotes" aria-pressed="false">Quotes</button>
   </div>
 </header>
 <main>
   <a class="banner" href="today/index.html" data-today-banner>
-    <span class="banner__tag">Today</span>
-    <span class="banner__name" data-today-name></span>
-    <span class="banner__quote" data-today-quote></span>
+    <span class="banner__tag">Today's law</span>
+    <span class="banner__name" data-today-name>Law of the day</span>
+    <span class="banner__quote" data-today-quote>Open today's entry</span>
   </a>
   <div class="grid">
 ${laws.map((l) => card(l, '')).join('\n')}
   </div>
 </main>`;
-  return page({ title: 'Laws & Adages', base: '', body, scripts: ['laws-data.js', 'app.js', 'read-state.js', 'sheet.js'] });
+  return page({
+    title: `Laws & Adages: ${laws.length} Eponymous Laws and Adages`,
+    description: `${laws.length} eponymous laws and adages, each with its quote, origin, mechanism, where it breaks, and an example.`,
+    base: '',
+    body,
+    scripts: ['laws-data.js', 'app.js', 'read-state.js', 'sheet.js'],
+  });
 }
 
 // Rendered in this order regardless of the order they appear in the file.
@@ -182,7 +197,7 @@ function entryPage(law) {
   <a class="backlink" href="../index.html"><span aria-hidden="true">←</span> All laws</a>
 </div>
 ${entryArticle(law)}
-<nav class="pager" aria-label="Other laws">
+<nav class="pager" aria-label="Previous and next laws">
   <a class="pager__link" href="${esc(law.prev.slug)}.html">
     <span class="pager__dir"><span aria-hidden="true">←</span> Previous</span>
     <span class="pager__name">${esc(law.prev.name)}</span>
@@ -193,7 +208,8 @@ ${entryArticle(law)}
   </a>
 </nav>`;
   return page({
-    title: `${law.name} — Laws & Adages`,
+    title: `${law.name} | Laws & Adages`,
+    description: `${law.quote} Origin, mechanism, where it breaks, and an example.`,
     base: '../',
     body,
     bodyAttrs: ` data-law="${esc(law.slug)}"`,
@@ -206,14 +222,15 @@ function todayPage() {
   <a class="backlink" href="../index.html"><span aria-hidden="true">←</span> All laws</a>
 </div>
 <main class="today" data-today>
-  <p class="today__tag">Today</p>
+  <p class="today__tag">Today's law</p>
   <div class="today__card" data-today-card></div>
   <div data-today-entry></div>
-  <noscript><p class="today__fallback">Revisit mode picks the law from the date, which needs
-    JavaScript. <a href="../index.html">Browse the collection instead.</a></p></noscript>
+  <noscript><p class="today__fallback">Today's law is chosen from your local date and requires
+    JavaScript. <a href="../index.html">Browse all laws instead.</a></p></noscript>
 </main>`;
   return page({
-    title: 'Today — Laws & Adages',
+    title: "Today's Law | Laws & Adages",
+    description: "One eponymous law or adage chosen for today's date, with its quote, origin, mechanism, where it breaks, and an example.",
     base: '../',
     body,
     scripts: ['laws-data.js', 'app.js', 'read-state.js'],
